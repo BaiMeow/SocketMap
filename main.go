@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/BaiMeow/SocketMap/config"
 	"github.com/BaiMeow/SocketMap/iptables"
 )
@@ -18,6 +19,7 @@ func main() {
 	config.Init(conf)
 	iptables.Init(prefSource)
 	for _, v := range config.Conf {
+		fmt.Printf("%s: %d mapping to %s\n", v.Protocol, v.LocalPort, v.Remote)
 		iptables.Mapping(v.LocalPort, v.Remote, v.Protocol)
 	}
 }

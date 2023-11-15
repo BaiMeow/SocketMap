@@ -1,7 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
+	"log"
 )
 
 type SocketMaping struct {
@@ -17,14 +19,18 @@ var Conf Config
 func Init(filepath string) {
 	if filepath != "" {
 		viper.SetConfigFile(filepath)
+		fmt.Println("Loading from ", filepath)
 	} else {
 		viper.SetConfigFile("/etc/socketMap.yaml")
+		fmt.Println("Loading from", "/etc/socketMap.yaml")
 	}
 
-	viper.ReadInConfig()
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatalln(err)
+	}
 	conf := make(map[string]SocketMaping)
-	mps := viper.GetStringMap("")
-	for mp := range mps {
+	for mp := range viper.AllSettings() {
 		conf[mp] = SocketMaping{
 			LocalPort: viper.GetUint(mp + ".local_port"),
 			Remote:    viper.GetString(mp + ".remote"),

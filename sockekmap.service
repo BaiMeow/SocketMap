@@ -1,0 +1,8 @@
+[Unit]
+Description=SocketMap
+
+[Service]
+ExecStart=/usr/bin/socketmap
+
+[Install]
+WantedBy=default.target
