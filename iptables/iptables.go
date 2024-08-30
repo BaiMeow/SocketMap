@@ -2,7 +2,7 @@ package iptables
 
 import (
 	"github.com/coreos/go-iptables/iptables"
-	"github.com/yaklang/yaklang/common/utils/netutil/netroute"
+	"github.com/libp2p/go-netroute"
 	"log"
 	"net"
 	"slices"
