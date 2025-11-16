@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/BaiMeow/SocketMap/config"
-	"github.com/BaiMeow/SocketMap/iptables"
+	"github.com/BaiMeow/socketmap/config"
+	"github.com/BaiMeow/socketmap/iptables"
 )
 
 var (

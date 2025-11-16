@@ -6,7 +6,7 @@
 set -e
 
 # 配置
-REPO="BaiMeow/SocketMap"
+REPO="BaiMeow/socketmap"
 INSTALL_DIR="/usr/bin"
 SERVICE_DIR="/etc/systemd/system"
 CONFIG_DIR="/etc"

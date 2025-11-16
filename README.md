@@ -18,13 +18,13 @@
 从 GitHub Releases 下载预编译的二进制文件：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/BaiMeow/SocketMap/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/BaiMeow/socketmap/main/install.sh | sudo bash
 ```
 
 或下载后执行：
 
 ```bash
-wget https://raw.githubusercontent.com/BaiMeow/SocketMap/main/install.sh
+wget https://raw.githubusercontent.com/BaiMeow/socketmap/main/install.sh
 chmod +x install.sh
 sudo ./install.sh
 ```
@@ -64,7 +64,7 @@ sudo systemctl daemon-reload
 ### 命令行参数
 
 - `-c` 指定配置文件路径，默认为 `/etc/socketmap.yaml`
-- `-s` 指定 SNAT 源地址，默认为默认网卡 IP
+- `-s` 指定 SNAT 源地址，默认为 MASQUERADE
 
 ### systemd 服务
 
@@ -77,23 +77,4 @@ sudo systemctl enable socketmap
 
 # 查看状态
 sudo systemctl status socketmap
-
-# 查看日志
-sudo journalctl -u socketmap -f
 ```
-
-### 直接运行
-
-```bash
-sudo socketmap -c /path/to/config.yaml
-```
-
-## 系统要求
-
-- Linux 系统
-- iptables
-- root 权限
-
-## License
-
-MIT
