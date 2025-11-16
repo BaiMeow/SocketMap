@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+
 	"github.com/BaiMeow/SocketMap/config"
 	"github.com/BaiMeow/SocketMap/iptables"
 )
