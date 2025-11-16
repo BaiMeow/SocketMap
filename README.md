@@ -50,12 +50,16 @@ sudo systemctl daemon-reload
 配置文件默认路径：`/etc/socketmap.yaml`
 
 ```yaml
-- protocol: tcp
-  localPort: 8080
+# 将本地 8080 端口的 TCP 流量转发到 192.168.1.100:80
+web:
+  protocol: tcp
+  local_port: 8080
   remote: 192.168.1.100:80
 
-- protocol: udp
-  localPort: 53
+# 将本地 53 端口的 UDP 流量转发到 8.8.8.8:53
+dns:
+  protocol: udp
+  local_port: 53
   remote: 8.8.8.8:53
 ```
 

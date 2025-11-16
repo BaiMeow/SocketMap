@@ -222,45 +222,30 @@ EOF
     print_info "systemd 服务已安装"
 }
 
-# 创建配置文件示例
-create_config_example() {
-    print_step "创建配置文件示例..."
+# 创建配置文件
+create_config() {
+    print_step "创建配置文件..."
     
     if [ -f "$CONFIG_DIR/socketmap.yaml" ]; then
         print_info "配置文件 $CONFIG_DIR/socketmap.yaml 已存在，跳过创建"
         return
     fi
     
-    cat > "$CONFIG_DIR/socketmap.yaml.example" << 'EOF'
-# SocketMap 配置文件示例
-# 
-# 配置说明：
-#   - protocol: 协议类型 (tcp 或 udp)
-#   - localPort: 本地监听端口
-#   - remote: 远程目标地址:端口
-#
-# 示例 1: 将本地 8080 端口的 TCP 流量转发到 192.168.1.100:80
-- protocol: tcp
-  localPort: 8080
-  remote: 192.168.1.100:80
+    cat > "$CONFIG_DIR/socketmap.yaml" << 'EOF'
+# SocketMap 配置文件
+# 格式：
+#   映射名称:
+#     protocol: tcp 或 udp
+#     local_port: 本地端口
+#     remote: 目标地址:端口
 
-# 示例 2: 将本地 53 端口的 UDP 流量转发到 8.8.8.8:53
-# - protocol: udp
-#   localPort: 53
-#   remote: 8.8.8.8:53
-
-# 示例 3: 多个端口映射
-# - protocol: tcp
-#   localPort: 3306
-#   remote: 192.168.1.200:3306
-#
-# - protocol: tcp
-#   localPort: 6379
-#   remote: 192.168.1.201:6379
+# web:
+#   protocol: tcp
+#   local_port: 8080
+#   remote: 192.168.1.100:80
 EOF
     
-    print_warning "请编辑配置文件 $CONFIG_DIR/socketmap.yaml"
-    print_info "示例配置已创建: $CONFIG_DIR/socketmap.yaml.example"
+    print_warning "请编辑配置文件 $CONFIG_DIR/socketmap.yaml 后启动服务"
 }
 
 # 打印使用说明
@@ -271,8 +256,7 @@ print_usage() {
     echo "=========================================="
     echo ""
     echo "📝 快速开始："
-    echo "  1. 复制并编辑配置文件:"
-    echo "     cp $CONFIG_DIR/socketmap.yaml.example $CONFIG_DIR/socketmap.yaml"
+    echo "  1. 编辑配置文件:"
     echo "     vim $CONFIG_DIR/socketmap.yaml"
     echo ""
     echo "  2. 启动服务:"
@@ -323,7 +307,7 @@ main() {
     download_binary
     install_binary
     install_service
-    create_config_example
+    create_config
     
     print_usage
 }
