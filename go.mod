@@ -1,4 +1,4 @@
-module github.com/BaiMeow/SocketMap
+module github.com/BaiMeow/socketmap
 
 go 1.20
 
