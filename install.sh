@@ -49,16 +49,16 @@ detect_arch() {
     local arch=$(uname -m)
     case $arch in
         x86_64)
-            ARCH="amd64"
+            ARCH="x86_64"
             ;;
         aarch64|arm64)
             ARCH="arm64"
             ;;
         armv7l)
-            ARCH="arm"
+            ARCH="armv7"
             ;;
         i386|i686)
-            ARCH="386"
+            ARCH="i386"
             ;;
         *)
             print_error "不支持的系统架构: $arch"
@@ -73,10 +73,10 @@ detect_os() {
     local os=$(uname -s)
     case $os in
         Linux)
-            OS="linux"
+            OS="Linux"
             ;;
         Darwin)
-            OS="darwin"
+            OS="Darwin"
             ;;
         *)
             print_error "不支持的操作系统: $os"
@@ -138,7 +138,7 @@ get_latest_version() {
 download_binary() {
     print_step "下载 SocketMap 二进制文件..."
     
-    local filename="socketmap_${OS}_${ARCH}"
+    local filename="SocketMap_${OS}_${ARCH}.tar.gz"
     local download_url="https://github.com/$REPO/releases/download/$VERSION/$filename"
     
     print_info "下载地址: $download_url"
@@ -147,7 +147,7 @@ download_binary() {
     cd "$tmp_dir"
     
     if command -v curl &> /dev/null; then
-        if curl -L -f "$download_url" -o socketmap; then
+        if curl -L -f "$download_url" -o "$filename"; then
             print_info "下载成功"
         else
             print_error "下载失败"
@@ -155,13 +155,22 @@ download_binary() {
             exit 1
         fi
     else
-        if wget -q "$download_url" -O socketmap; then
+        if wget -q "$download_url" -O "$filename"; then
             print_info "下载成功"
         else
             print_error "下载失败"
             rm -rf "$tmp_dir"
             exit 1
         fi
+    fi
+    
+    print_info "解压文件..."
+    tar -xzf "$filename"
+    
+    if [ ! -f "socketmap" ]; then
+        print_error "解压后未找到 socketmap 二进制文件"
+        rm -rf "$tmp_dir"
+        exit 1
     fi
     
     BINARY_PATH="$tmp_dir/socketmap"
