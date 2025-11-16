@@ -39,9 +39,11 @@ func Init(s string) {
 	}
 
 	if slices.Contains(chains, DNATCHAIN) {
-		err := ipt.DeleteIfExists("nat", "PREROUTING", "-i", publicEth, "-j", DNATCHAIN)
-		if err != nil {
-			return
+		for _, ethIP := range inputIPs {
+			err := ipt.DeleteIfExists("nat", "PREROUTING", "-i", publicEth, "-d", ethIP.(*net.IPNet).IP.String(), "-j", DNATCHAIN)
+			if err != nil {
+				return
+			}
 		}
 		if err := ipt.ClearAndDeleteChain("nat", DNATCHAIN); err != nil {
 			log.Fatalln(err)
@@ -53,7 +55,7 @@ func Init(s string) {
 	}
 
 	for _, ethIP := range inputIPs {
-		if err := ipt.InsertUnique("nat", "PREROUTING", 1, "-i", publicEth, "-d", ethIP.Network(), "-j", DNATCHAIN); err != nil {
+		if err := ipt.InsertUnique("nat", "PREROUTING", 1, "-i", publicEth, "-d", ethIP.(*net.IPNet).IP.String(), "-j", DNATCHAIN); err != nil {
 			log.Fatalln(err)
 		}
 	}
